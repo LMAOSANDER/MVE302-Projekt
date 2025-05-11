@@ -80,9 +80,9 @@ def main():
     start = 0.000001
     stop = 2
     step = 0.01
-    search_depth = 3
+    search_depth = 2
 
-    p_jk_list = [get_log_p_skatt_jk(n_jk, n_j, x, M) for x in np.arange(start, stop, step)]
+    p_jk_list = [get_log_p_skatt_jk(n_jk, n_j, b, M) for b in np.arange(start, stop, step)]
     p_list = [get_logprod_p_skatt_jk(trajectory_vec_2, p) for p in p_jk_list]
 
     x1, x2 = max(enumerate(p_list), key= lambda x:x[1])
@@ -93,7 +93,7 @@ def main():
         start = x1*step + start - step
         step = step / 10
 
-        p_jk_list = [get_log_p_skatt_jk(n_jk, n_j, x, M) for x in np.arange(start, stop, step)]
+        p_jk_list = [get_log_p_skatt_jk(n_jk, n_j, b, M) for b in np.arange(start, stop, step)]
         p_list = [get_logprod_p_skatt_jk(trajectory_vec_2, p) for p in p_jk_list]
         x1, x2 = max(enumerate(p_list), key= lambda x:x[1])
         print(x2, start + x1 * step)
