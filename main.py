@@ -71,15 +71,15 @@ def compute_b_parameter_values(start, stop, step, n_jk, n_j, trajectory_data) ->
     return b_to_p_list
 
 
-def determine_optimal_b_parameter(start, stop, step, search_width, search_depth, depth_zoom, 
+def determine_optimal_b_parameter(start, stop, step, search_depth, depth_zoom, 
                                   n_jk, n_j, trajectory_data) -> float:
     current_start, current_stop, current_step = start, stop, step
     for depth in range(search_depth):
         b_to_p_list = compute_b_parameter_values(current_start, current_stop, current_step, n_jk, n_j, trajectory_data)
         b_index, (b_max, p_max) = max(enumerate(b_to_p_list), key=lambda x:x[1][1])
+        current_start = b_max - current_step
+        current_stop = b_max + current_step
         current_step /= depth_zoom
-        current_start = b_max - search_width/depth_zoom**depth
-        current_stop = b_max + search_width/depth_zoom**depth
         print(b_max, p_max, depth)
 
 
@@ -104,12 +104,11 @@ def main():
     start = 0.000001
     stop = 2
     step = 0.01
-    search_width = step
     depth_zoom = 10
     search_depth = 6
     trajectory_data = trajectory_vec_2
 
-    determine_optimal_b_parameter(start, stop, step, search_width, search_depth, depth_zoom, 
+    determine_optimal_b_parameter(start, stop, step, search_depth, depth_zoom, 
                                   n_jk, n_j, trajectory_data)
 
 if __name__ == "__main__":
