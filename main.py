@@ -60,7 +60,7 @@ def get_logprod_p_skatt_jk(trajectory_vector, log_p_skatt_jk) -> float:
     return s
 
 
-def compute_b_parameter_values(start, stop, step, n_jk, n_j, trajectory_data) -> list[float]:
+def compute_b_parameter_values(start, stop, step, n_jk, n_j, trajectory_data) -> list[(float, float)]:
     b_range = np.arange(start, stop, step)
     # Create candidate matrices
     p_jk_list = [get_log_p_skatt_jk(n_jk, n_j, b, M) for b in b_range]
